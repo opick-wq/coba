@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                git branch: 'main', url: 'https://github.com/rainyoumil/infra-ansible-jenkins.git'
+                git branch: 'main', url: 'https://github.com/opick-wq/coba.git'
             }
         }
 
