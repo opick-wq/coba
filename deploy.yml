@@ -3,17 +3,30 @@
   hosts: web
   become: yes
   tasks:
+
+    - name: Hapus Docker repo lama (jika ada)
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/docker.list
+        state: absent
+
+    - name: Tambahkan Docker repository resmi (dengan codename yang benar)
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker
+
     - name: Update APT
-      apt:
+      ansible.builtin.apt:
         update_cache: yes
+        cache_valid_time: 3600
 
     - name: Install NGINX
-      apt:
+      ansible.builtin.apt:
         name: nginx
         state: present
 
     - name: Start NGINX
-      service:
+      ansible.builtin.service:
         name: nginx
         state: started
         enabled: true
