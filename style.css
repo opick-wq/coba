@@ -1,0 +1,255 @@
+/* Reset dan Pengaturan Dasar */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body {
+    background-color: #0c0a1a;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    cursor: none;
+}
+
+/* Jejak Komet (Mouse Trail) */
+#comet-trail {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(188,172,255,0.3) 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s linear;
+    z-index: 9999;
+    box-shadow: 0 0 15px #fff, 0 0 25px #fff, 0 0 45px #b48ff2;
+}
+
+/* Layar Pembuka */
+#welcome-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100;
+    transition: opacity 1.5s ease-in-out;
+    color: #fff;
+    
+    /* Efek Gradien Bergerak */
+    background: linear-gradient(270deg, #23153c, #4a2f58, #0c0a1a, #4a2f58);
+    background-size: 400% 400%;
+    animation: animateGradient 15s ease infinite;
+}
+
+@keyframes animateGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#welcome-screen.hidden { 
+    opacity: 0; 
+    pointer-events: none; 
+}
+
+.welcome-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 3.5rem;
+    color: #ede7ff;
+    text-shadow: 0 0 15px #b48ff2;
+    margin-bottom: 20px;
+}
+
+.welcome-content p {
+    font-size: 1.2rem;
+    color: #d1c4e9;
+    margin-bottom: 40px;
+}
+
+#start-btn {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(180, 143, 242, 0.5);
+    border: 2px solid rgba(180, 143, 242, 0.8);
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+#start-btn:hover { 
+    background: rgba(180, 143, 242, 0.8); 
+    box-shadow: 0 0 20px #b48ff2; 
+}
+
+/* Kanvas Langit */
+#sky-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+#sky-container.visible { 
+    opacity: 1; 
+}
+
+/* Bintang Utama */
+.star {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #b48ff2;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.star.highlight {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 15px #fff, 0 0 30px #fff, 0 0 50px #6ef1ff;
+    animation: pulsate 1.5s infinite;
+}
+
+.star.connected {
+    background: #6ef1ff;
+    box-shadow: 0 0 15px #fff, 0 0 30px #6ef1ff, 0 0 50px #6ef1ff;
+}
+
+@keyframes pulsate {
+    0% { transform: translate(-50%, -50%) scale(1.2); }
+    50% { transform: translate(-50%, -50%) scale(1.4); }
+    100% { transform: translate(-50%, -50%) scale(1.2); }
+}
+
+/* Garis Rasi Bintang (SVG) */
+#constellation-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#constellation-lines line {
+    stroke: rgba(110, 241, 255, 0.8);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw-line 1s forwards;
+}
+
+@keyframes draw-line {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Pop-up Pesan */
+.message-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(12, 10, 26, 0.7);
+    color: #ede7ff;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(180, 143, 242, 0.5);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.message-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
+}
+
+.message-popup h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.message-popup .close-popup-btn {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #fff;
+    background: none;
+    border: 1px solid #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Instruksi */
+#instruction {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    background: rgba(0,0,0,0.3);
+    padding: 10px 20px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#instruction.show { 
+    opacity: 1; 
+}
+
+/* --- CSS UNTUK GRAND FINALE --- */
+#sky-container.final-scene {
+    animation: zoom-in-sky 20s ease-in-out forwards;
+}
+
+@keyframes zoom-in-sky {
+    to {
+        transform: scale(1.15);
+    }
+}
+
+#hearts-finale-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.heart-particle {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 15px #f8b0e7;
+    user-select: none;
+    animation: fall linear infinite;
+    opacity: 0;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
